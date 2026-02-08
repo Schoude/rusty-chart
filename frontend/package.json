@@ -15,6 +15,8 @@
     "format": "oxfmt src/"
   },
   "dependencies": {
+    "ag-charts-community": "^13.0.1",
+    "ag-charts-vue3": "^13.0.1",
     "pinia": "^3.0.4",
     "vue": "^3.5.27"
   },

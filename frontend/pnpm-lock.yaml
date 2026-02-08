@@ -23,6 +23,12 @@ importers:
 
   .:
     dependencies:
+      ag-charts-community:
+        specifier: ^13.0.1
+        version: 13.0.1
+      ag-charts-vue3:
+        specifier: ^13.0.1
+        version: 13.0.1(vue@3.6.0-beta.5(typescript@5.9.3))
       pinia:
         specifier: ^3.0.4
         version: 3.0.4(typescript@5.9.3)(vue@3.6.0-beta.5(typescript@5.9.3))
@@ -688,6 +694,23 @@ packages:
     resolution: {integrity: sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg==}
     engines: {node: '>=0.4.0'}
     hasBin: true
+
+  ag-charts-community@13.0.1:
+    resolution: {integrity: sha512-N9DSUcpRFIWjXu1g1za18rZdumI1u1bEBuseL+Rh2ldNk/prKCdZifwo4Tsck0jnVDljyXh/G29nbmzmoXmdHQ==}
+
+  ag-charts-core@13.0.1:
+    resolution: {integrity: sha512-z6hqKW22nWoIBQJwcd62Z6nMdBE9uc0VLYVAmNdyHbc5qLkcln2s6zGWOo3Y0QIifdDM1dr4ZXcyVjGHudAVtw==}
+
+  ag-charts-locale@13.0.1:
+    resolution: {integrity: sha512-hr2qFe/rQSJVaRWu+Pj9CfbT5Xb7isHqqrW9eOnXFwkkGZTVM1zJai8DyMcrurC9kbRV2e3cf0toQnHkAzsxdg==}
+
+  ag-charts-types@13.0.1:
+    resolution: {integrity: sha512-qg9adyiAaeUaDtWZEEPF45dv55kdJTe6Ghi0EQXCS79h/7KvOd6dxhqGZjPL1zeFl/L9qEXuYgb+LkGStq4mgQ==}
+
+  ag-charts-vue3@13.0.1:
+    resolution: {integrity: sha512-Dn/VFVI5wCsWZ0fC+CRY+I8rJwVLQiXgyDxowksCknYbkUjHLJeKkDbmhKb2gu1R4xeyQBSwhozFPyPwSZ8D2A==}
+    peerDependencies:
+      vue: ^3.5.0
 
   ajv@6.12.6:
     resolution: {integrity: sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==}
@@ -2273,6 +2296,25 @@ snapshots:
       acorn: 8.15.0
 
   acorn@8.15.0: {}
+
+  ag-charts-community@13.0.1:
+    dependencies:
+      ag-charts-core: 13.0.1
+      ag-charts-locale: 13.0.1
+      ag-charts-types: 13.0.1
+
+  ag-charts-core@13.0.1:
+    dependencies:
+      ag-charts-types: 13.0.1
+
+  ag-charts-locale@13.0.1: {}
+
+  ag-charts-types@13.0.1: {}
+
+  ag-charts-vue3@13.0.1(vue@3.6.0-beta.5(typescript@5.9.3)):
+    dependencies:
+      ag-charts-community: 13.0.1
+      vue: 3.6.0-beta.5(typescript@5.9.3)
 
   ajv@6.12.6:
     dependencies:
