@@ -4,7 +4,7 @@ import { get_consumption_chart } from '../../chart-processor/pkg/chart_processor
 import { type AgBarSeriesOptions, type AgChartOptions, type AgLineSeriesOptions } from 'ag-charts-community';
 import { AgCharts } from 'ag-charts-vue3';
 import { AgGridVue } from 'ag-grid-vue3';
-import type { GridOptions, ColDef, FilterChangedEvent } from 'ag-grid-community';
+import type { GridOptions, ColDef, FilterChangedEvent, ValueFormatterParams } from 'ag-grid-community';
 
 interface Consumption {
   start: string;
@@ -68,6 +68,7 @@ const gridOptions = ref<GridOptions<Consumption>>({
   pagination: true,
   paginationPageSize: 10,
   paginationPageSizeSelector: [10, 20, 50],
+  autoSizeStrategy: { type: 'fitCellContents' },
 });
 const rowData = computed(() => {
   return data.value;
@@ -77,7 +78,8 @@ const columnDefs = ref<ColDef<Consumption>[]>([
   {
     field: 'quantity',
     filter: 'agNumberColumnFilter',
-    valueFormatter: (params) => `${params.value} kWh`,
+    valueFormatter: (params: ValueFormatterParams<Consumption, number>) =>
+      `${new Intl.NumberFormat().format(params.value!)} kWh`,
     type: 'numericColumn',
   },
   { field: 'meterProduct', filter: 'agTextColumnFilter' },
@@ -118,9 +120,6 @@ function onFilterChanged(event: FilterChangedEvent<Consumption>) {
   </div>
   <div class="container">
     <AgCharts :options="options" />
-  </div>
-
-  <div class="grid-container">
     <AgGridVue style="height: 500px" :row-data :column-defs :grid-options @filter-changed="onFilterChanged" />
   </div>
 </template>
@@ -138,14 +137,11 @@ body {
 }
 
 .container {
-  max-inline-size: 50dvw;
-  margin-inline: auto;
-}
-
-.grid-container {
-  max-inline-size: 50dvw;
-  margin-inline: auto;
-  margin-top: 2rem;
+  max-inline-size: 90dvw;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
 }
 
 .button-group {
