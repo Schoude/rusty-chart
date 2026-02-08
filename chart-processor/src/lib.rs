@@ -5,8 +5,8 @@ mod chart;
 
 use wasm_bindgen::prelude::*;
 
-use crate::api::fetch::fetch_single_make;
-use crate::chart::types::ChartConfig;
+use api::{CarApi, http::HttpCarApi};
+use chart::types::ChartConfig;
 
 #[wasm_bindgen]
 pub async fn get_chart_data(makes: Vec<String>) -> Result<JsValue, JsValue> {
@@ -19,7 +19,7 @@ pub async fn get_chart_data(makes: Vec<String>) -> Result<JsValue, JsValue> {
     let tasks = makes.iter().map(|make| {
         let m = make.clone();
         let org = origin.clone();
-        async move { (m.clone(), fetch_single_make(&org, &m).await) }
+        async move { (m.clone(), HttpCarApi.fetch_single_make(&org, &m).await) }
     });
 
     let results = futures::future::join_all(tasks).await;
