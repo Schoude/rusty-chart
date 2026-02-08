@@ -1,17 +1,18 @@
-import { defineConfig } from 'vite'
+import { fileURLToPath, URL } from 'node:url'
 
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import vueDevTools from 'vite-plugin-vue-devtools'
+
+// https://vite.dev/config/
 export default defineConfig({
-  server: {
-    fs: {
-      // Allow serving files from one level up to the project root
-      allow: ['..']
+  plugins: [
+    vue(),
+    vueDevTools(),
+  ],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
     },
-    proxy: {
-      '/api-proxy': {
-        target: 'https://carapi.app',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api-proxy/, '')
-      }
-    }
-  }
+  },
 })
