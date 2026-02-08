@@ -119,7 +119,7 @@ function onFilterChanged(event: FilterChangedEvent<Consumption>) {
     </button>
   </div>
   <div class="container">
-    <AgCharts :options="options" />
+    <AgCharts :options="options" style="border-radius: 10px; overflow: clip" />
     <AgGridVue style="height: 500px" :row-data :column-defs :grid-options @filter-changed="onFilterChanged" />
   </div>
 </template>
