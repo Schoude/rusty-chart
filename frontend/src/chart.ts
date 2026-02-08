@@ -73,7 +73,7 @@ export function createBarChart(title: string, data: { month: string, total: numb
         xKey: "month",
         yKey: "total",
         yName: "Total Consumption (kWh)",
-        yKeyAxis: "total",
+        yKeyAxis: "totalLine",
         marker: { enabled: false },
       } as AgLineSeriesOptions,
     ],
@@ -81,6 +81,17 @@ export function createBarChart(title: string, data: { month: string, total: numb
       total: {
         type: "number",
         position: "left",
+        nice: true,
+        label: {
+          formatter: (params) => {
+            return parseFloat(params.value).toLocaleString();
+          },
+        },
+      } as AgNumberAxisOptions,
+      totalLine: {
+        type: "number",
+        position: "right",
+        nice: true,
         label: {
           formatter: (params) => {
             return parseFloat(params.value).toLocaleString();
@@ -91,6 +102,7 @@ export function createBarChart(title: string, data: { month: string, total: numb
     legend: {
       position: "bottom",
     } as AgChartLegendOptions,
+    height: 500,
   };
   options.container = document.getElementById("chart-consumption");
 
