@@ -76,8 +76,8 @@ body {
 }
 
 .container {
-  max-inline-size: 75%;
-  margin: auto;
+  max-inline-size: 50dvw;
+  margin-inline: auto;
 }
 
 .button-group {
