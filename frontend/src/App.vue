@@ -1,22 +1,41 @@
 <script setup lang="ts">
 import { computed, onBeforeMount, ref, watchEffect } from 'vue';
 import { get_consumption_chart } from '../../chart-processor/pkg/chart_processor';
-import type { AgBarSeriesOptions, AgChartOptions, AgLineSeriesOptions } from 'ag-charts-community';
+import { type AgBarSeriesOptions, type AgChartOptions, type AgLineSeriesOptions } from 'ag-charts-community';
 import { AgCharts } from 'ag-charts-vue3';
+import { AgGridVue } from 'ag-grid-vue3';
+import type { GridOptions, ColDef, FilterChangedEvent } from 'ag-grid-community';
 
-const data = ref<[]>();
+interface Consumption {
+  start: string;
+  quantity: number;
+  meterProduct: string;
+  address: {
+    city: string;
+    street: string;
+    postalCode: string;
+  };
+}
+
+const data = ref<Consumption[]>();
+const chartData = ref<Consumption[]>();
 const productFilter = ref<string>();
 const chart = ref<{ month: string; total: number }[]>();
 
 onBeforeMount(async () => {
   data.value = await fetch('consumption.json').then((res) => res.json());
-  chart.value = await get_consumption_chart(data.value);
+  chartData.value = data.value;
+  console.time('init chart');
+  chart.value = await get_consumption_chart(chartData.value);
+  console.timeEnd('init chart');
 });
 
 watchEffect(async () => {
   if (!data.value) return;
 
-  chart.value = await get_consumption_chart(data.value, productFilter.value);
+  console.time('call rust');
+  chart.value = await get_consumption_chart(chartData.value, productFilter.value);
+  console.timeEnd('call rust');
 });
 
 const options = computed<AgChartOptions>(() => ({
@@ -45,8 +64,47 @@ const options = computed<AgChartOptions>(() => ({
   height: 500,
 }));
 
+const gridOptions = ref<GridOptions<Consumption>>({
+  pagination: true,
+  paginationPageSize: 10,
+  paginationPageSizeSelector: [10, 20, 50],
+});
+const rowData = computed(() => {
+  return data.value;
+});
+
+const columnDefs = ref<ColDef<Consumption>[]>([
+  {
+    field: 'quantity',
+    filter: 'agNumberColumnFilter',
+    valueFormatter: (params) => `${params.value} kWh`,
+    type: 'numericColumn',
+  },
+  { field: 'meterProduct', filter: 'agTextColumnFilter' },
+  {
+    field: 'start',
+    filter: 'agDateColumnFilter',
+    valueFormatter: (params) => new Date(params.value).toLocaleDateString(),
+  },
+  { field: 'address.city', filter: 'agTextColumnFilter' },
+  { field: 'address.street', filter: 'agTextColumnFilter' },
+  { field: 'address.postalCode', filter: 'agTextColumnFilter' },
+]);
+
 async function filterByMeterProduct(product?: string) {
   productFilter.value = product;
+}
+
+function onFilterChanged(event: FilterChangedEvent<Consumption>) {
+  const currentData: Consumption[] = [];
+
+  event.api.forEachNodeAfterFilterAndSort((n) => {
+    if (!n.data) return;
+
+    currentData.push(n.data);
+  });
+
+  chartData.value = currentData;
 }
 </script>
 
@@ -60,6 +118,10 @@ async function filterByMeterProduct(product?: string) {
   </div>
   <div class="container">
     <AgCharts :options="options" />
+  </div>
+
+  <div class="grid-container">
+    <AgGridVue style="height: 500px" :row-data :column-defs :grid-options @filter-changed="onFilterChanged" />
   </div>
 </template>
 
@@ -78,6 +140,12 @@ body {
 .container {
   max-inline-size: 50dvw;
   margin-inline: auto;
+}
+
+.grid-container {
+  max-inline-size: 50dvw;
+  margin-inline: auto;
+  margin-top: 2rem;
 }
 
 .button-group {
