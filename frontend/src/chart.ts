@@ -1,4 +1,4 @@
-import { AgCharts, type AgBarSeriesOptions, type AgChartCaptionOptions, type AgChartLegendOptions, type AgChartOptions, type AgNumberAxisOptions, type AgScatterSeriesOptions } from 'ag-charts-community';
+import { AgCharts, type AgBarSeriesOptions, type AgChartCaptionOptions, type AgChartLegendOptions, type AgChartOptions, type AgLineSeriesOptions, type AgNumberAxisOptions, type AgScatterSeriesOptions } from 'ag-charts-community';
 
 export function createChart<T>(title: string, data: Map<string, T[]>) {
   const series = [...data.entries()].map(([make, data]) => ({
@@ -68,6 +68,14 @@ export function createBarChart(title: string, data: { month: string, total: numb
           },
         },
       } as AgBarSeriesOptions,
+      {
+        type: "line",
+        xKey: "month",
+        yKey: "total",
+        yName: "Total Consumption (kWh)",
+        yKeyAxis: "total",
+        marker: { enabled: false },
+      } as AgLineSeriesOptions,
     ],
     axes: {
       total: {

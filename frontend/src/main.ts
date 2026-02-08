@@ -11,7 +11,7 @@ window.addEventListener('load', async () => {
   createChart(data.title, data.data);
 
   console.time('consumption load');
-  const consumptions = (await import('../public/consumption.json')).default;
+  const consumptions = await fetch('/consumption.json').then(res => res.json());
   console.timeEnd('consumption load');
 
   console.time('consumption parse');
