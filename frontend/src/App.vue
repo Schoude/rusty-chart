@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeMount, ref, watchEffect } from 'vue';
 import { get_consumption_chart } from '../../chart-processor/pkg/chart_processor';
-import type { AgChartOptions } from 'ag-charts-community';
+import type { AgBarSeriesOptions, AgChartOptions, AgLineSeriesOptions } from 'ag-charts-community';
 import { AgCharts } from 'ag-charts-vue3';
 
 const data = ref<[]>();
@@ -23,6 +23,7 @@ const options = computed<AgChartOptions>(() => ({
   title: {
     text: 'Consumptions by month',
     fontSize: 18,
+    fontFamily: 'Avenir, Helvetica, Arial, sans-serif',
   },
   data: chart.value,
   series: [
@@ -30,7 +31,7 @@ const options = computed<AgChartOptions>(() => ({
       type: 'bar',
       xKey: 'month',
       yKey: 'total',
-    },
+    } as AgBarSeriesOptions,
     {
       type: 'line',
       xKey: 'month',
@@ -39,7 +40,7 @@ const options = computed<AgChartOptions>(() => ({
         enabled: false,
       },
       strokeWidth: 3,
-    },
+    } as AgLineSeriesOptions,
   ],
   height: 500,
 }));
