@@ -6,6 +6,7 @@ import { AllCommunityModule as AllCommunityModuleGrid, ModuleRegistry as ModuleR
 // Register all Community features
 import init from '../../chart-processor/pkg/chart_processor';
 import App from './App.vue';
+import router from './router';
 
 // Enable all Community features
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -15,5 +16,6 @@ await init();
 const app = createApp(App);
 
 app.use(createPinia());
+app.use(router);
 
 app.mount('#app');
