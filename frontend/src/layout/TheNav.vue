@@ -5,7 +5,7 @@
         <RouterLink :to="{ name: 'home' }">Home</RouterLink>
       </li>
       <li>
-        <RouterLink :to="{ name: 'comments' }">Comments</RouterLink>
+        <RouterLink :to="{ name: 'comments', params: { id: 1 } }">Comments</RouterLink>
       </li>
     </ul>
   </nav>

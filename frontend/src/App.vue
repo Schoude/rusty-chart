@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import TheNav from '@/layout/TheNav.vue';
+import { PiniaColadaDevtools } from '@pinia/colada-devtools';
 </script>
 
 <template>
@@ -7,6 +8,8 @@ import TheNav from '@/layout/TheNav.vue';
   <main>
     <RouterView />
   </main>
+
+  <PiniaColadaDevtools />
 </template>
 
 <style>

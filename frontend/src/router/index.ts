@@ -8,7 +8,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     name: 'comments',
-    path: '/comments',
+    path: '/comments/:id',
     component: () => import('@/views/TheComments.view.vue'),
   },
 ];
