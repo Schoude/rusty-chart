@@ -3,7 +3,6 @@ import { type RegleFieldStatus } from '@regle/core';
 export type InputType = 'text' | 'email' | 'password';
 
 interface BaseFieldConfig {
-  id: string;
   label: string;
   placeholder?: string;
   description?: string;
@@ -33,6 +32,7 @@ export type FormFieldConfig = TextFieldConfig | EmailFieldConfig | PasswordField
 // This represents the merged object we loop over
 // We use unknown for the value type to remain safe during iteration
 export type FieldInstance<TValue> = FormFieldConfig & {
+  id: string;
   validator: RegleFieldStatus<TValue>;
 };
 
@@ -42,6 +42,7 @@ export function createField<TValue, TConfig extends FormFieldConfig>(
 ): FieldInstance<TValue> {
   return {
     validator,
+    id: crypto.randomUUID(),
     ...config,
   };
 }

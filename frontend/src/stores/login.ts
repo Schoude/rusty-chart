@@ -37,24 +37,20 @@ export const useLoginStore = defineStore('login', () => {
 
   const formFields = computed(() => [
     createField(r$.username, {
-      id: crypto.randomUUID(),
       type: 'text',
       label: 'Username',
       placeholder: 'master89',
     }),
     createField(r$.email, {
-      id: crypto.randomUUID(),
       type: 'email',
       label: 'Email Address',
     }),
     createField(r$.password, {
-      id: 'pass',
       type: 'password',
       label: 'Password',
       showToggleVisibility: true,
     }),
     createField(r$.phone, {
-      id: 'phone',
       type: 'number',
       label: 'Telefon',
       min: 0,
@@ -66,7 +62,6 @@ export const useLoginStore = defineStore('login', () => {
       locale: 'de-DE',
     }),
     createField(r$.address.street, {
-      id: 'street',
       type: 'text',
       label: 'Steet',
       placeholder: 'The Road',
