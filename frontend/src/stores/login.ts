@@ -2,7 +2,7 @@ import { createField } from '@/composables/form/types';
 import { useRegle } from '@regle/core';
 import { required, email, minLength, maxValue, maxLength } from '@regle/rules';
 import { defineStore } from 'pinia';
-import { ref, computed } from 'vue';
+import { ref, computed, toValue, type MaybeRefOrGetter } from 'vue';
 
 export const useLoginStore = defineStore('login', () => {
   const loginData = ref({
@@ -83,5 +83,8 @@ export const useLoginStore = defineStore('login', () => {
     loginData,
     onValidate,
     onReset,
+    setFormState(state: MaybeRefOrGetter<typeof loginData>) {
+      r$.$reset({ toState: toValue(state).value });
+    },
   };
 });

@@ -3,17 +3,16 @@ import FormFieldDiscriminator from '@/components/form/FormFieldDiscriminator.vue
 import { Button } from '@/components/ui/button';
 import { Field, FieldLabel, FieldGroup, FieldError, FieldDescription } from '@/components/ui/field';
 import { useLoginStore } from '@/stores/login';
+import { useTimeout } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
-import { onMounted } from 'vue';
 
 const loginStore = useLoginStore();
-const { r$, loginData, formFields } = storeToRefs(loginStore);
-
-onMounted(() => {
-  setTimeout(() => {
+const { loginData, formFields } = storeToRefs(loginStore);
+useTimeout(1000, {
+  callback: () => {
     loginData.value.address.street = 'Test Street';
-    r$.value.$reset({ toState: loginData.value });
-  }, 2000);
+    loginStore.setFormState(loginData);
+  },
 });
 </script>
 
