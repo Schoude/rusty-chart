@@ -2,6 +2,7 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { AllCommunityModule, ModuleRegistry } from 'ag-charts-community';
 import { AllCommunityModule as AllCommunityModuleGrid, ModuleRegistry as ModuleRegistryGrid } from 'ag-grid-community';
+import '@/style.css';
 
 // Register all Community features
 import init from '../../chart-processor/pkg/chart_processor';
@@ -23,15 +24,8 @@ app.use(createPinia());
 app.use(PiniaColada, {
   plugins: [
     PiniaColadaQueryHooksPlugin({
-      onError(error) {
-        console.log({ error });
-
-        alert(error);
-      },
-      onSuccess(data, entry) {
-        console.log({ data });
-        console.log({ entry });
-      },
+      onError(_error) {},
+      onSuccess(_data, _entry) {},
     }),
     PiniaColadaCachePersister({
       // optional

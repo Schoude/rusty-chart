@@ -5,6 +5,7 @@ import { type AgBarSeriesOptions, type AgChartOptions, type AgLineSeriesOptions 
 import { AgCharts } from 'ag-charts-vue3';
 import { AgGridVue } from 'ag-grid-vue3';
 import type { GridOptions, ColDef, FilterChangedEvent, ValueFormatterParams } from 'ag-grid-community';
+import Button from '@/components/ui/button/Button.vue';
 
 interface Consumption {
   start: string;
@@ -112,11 +113,11 @@ function onFilterChanged(event: FilterChangedEvent<Consumption>) {
 
 <template>
   <div class="button-group">
-    <button :disabled="productFilter == null" @click="filterByMeterProduct()">All</button>
-    <button :disabled="productFilter === 'gas'" @click="filterByMeterProduct('gas')">Gas</button>
-    <button :disabled="productFilter === 'electricity'" @click="filterByMeterProduct('electricity')">
+    <Button :disabled="productFilter == null" @click="filterByMeterProduct()">All</Button>
+    <Button :disabled="productFilter === 'gas'" @click="filterByMeterProduct('gas')">Gas</Button>
+    <Button :disabled="productFilter === 'electricity'" @click="filterByMeterProduct('electricity')">
       Electricity
-    </button>
+    </Button>
   </div>
   <div class="container">
     <AgCharts :options="options" style="border-radius: 10px; overflow: clip" />

@@ -22,5 +22,3 @@ const { isLoading, data, refetch } = useCommentsLoader();
 
   <button @click="() => refetch()">Reload</button>
 </template>
-
-<style scoped></style>
