@@ -32,6 +32,9 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.1.18
         version: 4.1.18(vite@8.0.0-beta.13(@types/node@25.2.3)(jiti@2.6.1)(yaml@2.8.2))
+      '@vueuse/core':
+        specifier: ^14.2.1
+        version: 14.2.1(vue@3.6.0-beta.5(typescript@5.9.3))
       ag-charts-community:
         specifier: ^13.1.0
         version: 13.1.0
