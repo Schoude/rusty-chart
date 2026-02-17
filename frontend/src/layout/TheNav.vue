@@ -14,6 +14,11 @@ import { Button } from '@/components/ui/button';
           <RouterLink :to="{ name: 'comments', params: { id: 1 } }">Comments</RouterLink>
         </Button>
       </li>
+      <li>
+        <Button variant="link" as-child>
+          <RouterLink :to="{ name: 'form' }">Form</RouterLink>
+        </Button>
+      </li>
     </ul>
   </nav>
 </template>

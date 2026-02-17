@@ -11,6 +11,11 @@ const routes: RouteRecordRaw[] = [
     path: '/comments/:id',
     component: () => import('@/views/TheComments.view.vue'),
   },
+  {
+    name: 'form',
+    path: '/form',
+    component: () => import('@/views/TheForm.view.vue'),
+  },
 ];
 
 const router = createRouter({

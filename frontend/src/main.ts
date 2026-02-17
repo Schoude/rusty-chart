@@ -11,6 +11,7 @@ import router from './router';
 import { DataLoaderPlugin } from 'vue-router/experimental';
 import { PiniaColada, PiniaColadaQueryHooksPlugin } from '@pinia/colada';
 import { PiniaColadaCachePersister } from '@pinia/colada-plugin-cache-persister';
+import { RegleVuePlugin } from '@regle/core';
 
 // Enable all Community features
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -38,5 +39,6 @@ app.use(PiniaColada, {
 });
 app.use(DataLoaderPlugin, { router });
 app.use(router);
+app.use(RegleVuePlugin);
 
 app.mount('#app');
