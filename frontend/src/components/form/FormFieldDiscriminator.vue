@@ -14,8 +14,15 @@ defineModel<FieldInstance<string> | FieldInstance<number>>('field', { required: 
 
 <template>
   <template v-if="field.type === 'number'">
-    <NumberField :id="field.id" v-model="field.validator.$value as number | null | undefined" :min="field.min"
-      :max="field.max" :step="field.step" :format-options="field.formatOptions" :locale="field.locale">
+    <NumberField
+      :id="field.id"
+      v-model="field.validator.$value as number | null | undefined"
+      :min="field.min"
+      :max="field.max"
+      :step="field.step"
+      :format-options="field.formatOptions"
+      :locale="field.locale"
+    >
       <NumberFieldContent>
         <NumberFieldDecrement />
         <NumberFieldInput />
