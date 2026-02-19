@@ -7,7 +7,7 @@ import { createField } from '@/composables/form/types';
 import { useLoginStore } from '@/stores/login';
 import { fromDate, getLocalTimeZone, type DateValue, today, toCalendarDate } from '@internationalized/date';
 import { createRule, useRegle, type Maybe } from '@regle/core';
-import { required } from '@regle/rules';
+import { required, withMessage } from '@regle/rules';
 import { useTimeout } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { ref, type Ref } from 'vue';
@@ -43,7 +43,7 @@ const { r$ } = useRegle(date, {
   date: {
     $self: {
       required,
-      myDateAfter: myDateAfter({ allowEqual: true }),
+      myDateAfter: withMessage(myDateAfter({ allowEqual: true }), 'The date must be after or equal to today.'),
     },
   },
 });
@@ -67,13 +67,8 @@ function onClearDate() {
       <FieldLabel for="date">{{ dateField.label }}</FieldLabel>
       <FieldDescription>{{ dateField.description }}</FieldDescription>
 
-      <Calendar
-        v-model="dateField.validator.$value as DateValue"
-        class="rounded-md border shadow-sm"
-        layout="month-and-year"
-        :min-value="dateField.minDate"
-        :max-value="dateField.maxDate"
-      />
+      <Calendar v-model="dateField.validator.$value as DateValue" class="rounded-md border shadow-sm"
+        layout="month-and-year" :min-value="dateField.minDate" :max-value="dateField.maxDate" />
 
       <FieldError :errors="dateField.validator.$errors.$self" />
     </Field>
