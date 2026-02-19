@@ -61,8 +61,13 @@ function onClearDate() {
       <FieldLabel for="date">{{ dateField.label }}</FieldLabel>
       <FieldDescription>{{ dateField.description }}</FieldDescription>
 
-      <Calendar v-model="dateField.validator.$value" class="rounded-md border shadow-sm" layout="month-and-year"
-        :min-value="dateField.minDate" :max-value="dateField.maxDate" />
+      <Calendar
+        v-model="dateField.validator.$value as DateValue"
+        class="rounded-md border shadow-sm"
+        layout="month-and-year"
+        :min-value="dateField.minDate"
+        :max-value="dateField.maxDate"
+      />
 
       <FieldError :errors="dateField.validator.$errors.$self" />
     </Field>

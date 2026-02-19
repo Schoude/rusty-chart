@@ -33,14 +33,17 @@ export interface DateFieldConfig extends BaseFieldConfig {
   maxDate?: DateValue;
 }
 
-export type FormFieldConfig =
-  | TextFieldConfig
-  | EmailFieldConfig
-  | PasswordFieldConfig
-  | NumberFieldConfig
-  | DateFieldConfig;
+interface FieldConfigMap {
+  text: TextFieldConfig;
+  email: EmailFieldConfig;
+  password: PasswordFieldConfig;
+  number: NumberFieldConfig;
+  date: DateFieldConfig;
+}
 
-export type FieldInstance<TValidator> = FormFieldConfig & {
+export type FormFieldConfig = FieldConfigMap[keyof FieldConfigMap];
+
+export type FieldInstance<TValidator, TConfig extends FormFieldConfig> = TConfig & {
   id: string;
   validator: TValidator;
 };
@@ -48,7 +51,7 @@ export type FieldInstance<TValidator> = FormFieldConfig & {
 export function createField<TValidator, TConfig extends FormFieldConfig>(
   validator: TValidator,
   config: TConfig,
-): FieldInstance<TValidator> {
+): FieldInstance<TValidator, TConfig> {
   return {
     validator,
     id: crypto.randomUUID(),

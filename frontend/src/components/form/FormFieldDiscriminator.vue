@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FieldInstance } from '@/composables/form/types';
+import type { FieldInstance, FormFieldConfig } from '@/composables/form/types';
 import { Input } from '../ui/input';
 import {
   NumberFieldContent,
@@ -8,15 +8,18 @@ import {
   NumberFieldDecrement,
   NumberField,
 } from '../ui/number-field';
+import type { RegleFieldStatus } from '@regle/core';
 
-defineModel<FieldInstance<string> | FieldInstance<number>>('field', { required: true });
+type AnyFieldInstance = FieldInstance<RegleFieldStatus, FormFieldConfig>;
+
+defineModel<AnyFieldInstance>('field', { required: true });
 </script>
 
 <template>
   <template v-if="field.type === 'number'">
     <NumberField
       :id="field.id"
-      v-model="field.validator.$value as number | null | undefined"
+      v-model="field.validator.$value"
       :min="field.min"
       :max="field.max"
       :step="field.step"
