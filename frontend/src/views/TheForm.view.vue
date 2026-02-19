@@ -5,7 +5,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Field, FieldLabel, FieldGroup, FieldError, FieldDescription } from '@/components/ui/field';
 import { createField } from '@/composables/form/types';
 import { useLoginStore } from '@/stores/login';
-import { fromDate, getLocalTimeZone, type DateValue, today } from '@internationalized/date';
+import { fromDate, getLocalTimeZone, type DateValue, today, toCalendarDate } from '@internationalized/date';
 import { createRule, useRegle, type Maybe } from '@regle/core';
 import { required } from '@regle/rules';
 import { useTimeout } from '@vueuse/core';
@@ -22,22 +22,28 @@ useTimeout(1000, {
 });
 
 const myDateAfter = createRule({
-  validator: (value: Maybe<NonNullable<DateValue>>) => {
+  validator: (value: Maybe<NonNullable<DateValue>>, config?: { allowEqual: boolean }) => {
     if (value == null) return true;
     const todayDate = today(getLocalTimeZone());
+
+    if (config?.allowEqual) {
+      return value.compare(todayDate) >= 0;
+    }
 
     return value.compare(todayDate) > 0;
   },
   message: 'The date must be after today.',
 });
 
-const date = ref({ date: fromDate(new Date(), getLocalTimeZone()) }) as Ref<{ date: DateValue | undefined | null }>;
+const date = ref({ date: toCalendarDate(fromDate(new Date(), getLocalTimeZone())) }) as Ref<{
+  date: DateValue | undefined | null;
+}>;
 
 const { r$ } = useRegle(date, {
   date: {
     $self: {
       required,
-      myDateAfter,
+      myDateAfter: myDateAfter({ allowEqual: true }),
     },
   },
 });
@@ -46,8 +52,8 @@ const dateField = createField(r$.date, {
   type: 'date',
   label: 'Select a date',
   description: 'Please select a date that is after today.',
-  minDate: fromDate(new Date(1925, 0, 1), getLocalTimeZone()),
-  maxDate: fromDate(new Date(2035, 0, 1), getLocalTimeZone()),
+  minDate: toCalendarDate(fromDate(new Date(1925, 0, 1), getLocalTimeZone())),
+  maxDate: toCalendarDate(fromDate(new Date(2035, 0, 1), getLocalTimeZone())),
 });
 
 function onClearDate() {
