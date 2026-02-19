@@ -1,4 +1,4 @@
-import { type RegleFieldStatus } from '@regle/core';
+import type { DateValue } from '@internationalized/date';
 
 export type InputType = 'text' | 'email' | 'password';
 
@@ -27,19 +27,28 @@ export interface NumberFieldConfig extends BaseFieldConfig {
   locale?: string;
 }
 
-export type FormFieldConfig = TextFieldConfig | EmailFieldConfig | PasswordFieldConfig | NumberFieldConfig;
+export interface DateFieldConfig extends BaseFieldConfig {
+  type: 'date';
+  minDate?: DateValue;
+  maxDate?: DateValue;
+}
 
-// This represents the merged object we loop over
-// We use unknown for the value type to remain safe during iteration
-export type FieldInstance<TValue> = FormFieldConfig & {
+export type FormFieldConfig =
+  | TextFieldConfig
+  | EmailFieldConfig
+  | PasswordFieldConfig
+  | NumberFieldConfig
+  | DateFieldConfig;
+
+export type FieldInstance<TValidator> = FormFieldConfig & {
   id: string;
-  validator: RegleFieldStatus<TValue>;
+  validator: TValidator;
 };
 
-export function createField<TValue, TConfig extends FormFieldConfig>(
-  validator: RegleFieldStatus<TValue>,
+export function createField<TValidator, TConfig extends FormFieldConfig>(
+  validator: TValidator,
   config: TConfig,
-): FieldInstance<TValue> {
+): FieldInstance<TValidator> {
   return {
     validator,
     id: crypto.randomUUID(),

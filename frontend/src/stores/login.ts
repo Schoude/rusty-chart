@@ -51,7 +51,7 @@ export const useLoginStore = defineStore('login', () => {
       showToggleVisibility: true,
     }),
     createField(r$.phone, {
-      type: 'number',
+      type: 'text',
       label: 'Telefon',
       min: 0,
       max: 10,
